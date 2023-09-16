@@ -5,11 +5,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import practikum.burger.FormLogin;
-import practikum.burger.Header;
-import practikum.burger.ProfileUser;
+import practikum.burger.*;
 import user.LoginResponse;
 import user.User;
 import user.UserClient;
@@ -18,23 +19,46 @@ import user.UserCreds;
 import java.util.concurrent.TimeUnit;
 
 import static constants.Api.BASE_URL;
+@RunWith(Parameterized.class)
 
 public class LoginTest {
     private WebDriver driver;
-    String userName;
-    String email;
-    String password;
-    UserClient userClient;
+    private String userName;
+    private String email;
+    private String password;
+    private UserClient userClient;
+    private boolean isLoginExpected;
+    private By buttonLogin;
+    private Faker faker = new Faker();
+    public LoginTest(String userName, String email, String password, UserClient userClient, boolean isLoginExpected, By buttonLogin){
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.userClient = userClient;
+        this.isLoginExpected = isLoginExpected;
+        this.buttonLogin = buttonLogin;
+    }
+    @Parameterized.Parameters
+    public static Object[][] loginTestData(){
+        return new Object[][]{
+                {"test1988test", "testJava@mail.ru", "password1", new UserClient(), true, By.xpath(".//p[contains(text(), 'Личный Кабинет')]")},
+                {"test1898test", "testJava22@mail.ru", "password2", new UserClient(), true, By.xpath(".//button[contains(text(), 'Войти в аккаунт')]")},
+                {"test1899test1", "testJava2231@mail.ru", "password231", new UserClient(), true, By.xpath(".//p[contains(text(), 'Уже зарегистрированы?')]/a[contains(text(), 'Войти')]")},
+                {"test1777test2", "testJava2232@mail.ru", "pass213word", new UserClient(), true,By.xpath(".//p[contains(text(), 'Вспомнили пароль?')]/a[contains(text(), 'Войти')]")},
+
+        };
+    }
+
     @Before
     public void setUp(){
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         RestAssured.baseURI = BASE_URL;
-        userClient = new UserClient();
-        Faker faker = new Faker();
-        userName = faker.name().username();
-        email = faker.internet().emailAddress();
-        password = faker.internet().password();
+ //       userClient = new UserClient();
+ //       Faker faker = new Faker();
+ //       userName = faker.name().username();
+ //       email = faker.internet().emailAddress();
+//        password = faker.internet().password();
         User user = new User(email, password, userName);
         userClient.createUser(user);
     }
@@ -44,8 +68,24 @@ public class LoginTest {
         Header header = new Header(driver);
         header.open();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        header.buttonAccountClick();
+        FormConstructor formConstructor = new FormConstructor(driver);
         FormLogin formLogin = new FormLogin(driver);
+        if (buttonLogin.equals(By.xpath(".//p[contains(text(), 'Личный Кабинет')]"))){
+            header.buttonAccountClick();
+        } else if (buttonLogin.equals(By.xpath(".//button[contains(text(), 'Войти в аккаунт')]"))){
+            formConstructor.loginButtonClick();
+        }else if (buttonLogin.equals(By.xpath(".//p[contains(text(), 'Уже зарегистрированы?')]/a[contains(text(), 'Войти')]"))){
+            header.buttonAccountClick();
+            formLogin.registrationButtonClick();
+            FormRegistration formRegistration = new FormRegistration(driver);
+            formRegistration.loginButtonClick();
+        } else if (buttonLogin.equals(By.xpath(".//p[contains(text(), 'Вспомнили пароль?')]/a[contains(text(), 'Войти')]"))){
+            header.buttonAccountClick();
+            formLogin.restoreButtonClick();
+            FormRestore formRestore = new FormRestore(driver);
+            formRestore.loginButtonClick();
+        }
+     //   FormLogin formLogin = new FormLogin(driver);
         formLogin.isVisibleForm();
         formLogin.setInputEmail(email);
         formLogin.setInputPassword(password);
@@ -53,7 +93,8 @@ public class LoginTest {
         driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
         header.buttonAccountClick();
         ProfileUser profileUser = new ProfileUser(driver);
-        Assert.assertEquals(true, profileUser.isVisibleProfile());
+        boolean isLoginActual = profileUser.isVisibleProfile();
+        Assert.assertEquals("Вход не осуществлен", isLoginExpected, isLoginActual);
     }
     @After
     public void tearDown(){

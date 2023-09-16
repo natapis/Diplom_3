@@ -1,6 +1,7 @@
 package practikum.burger;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 public class FormLogin {
@@ -12,8 +13,8 @@ public class FormLogin {
     private By inputEmail = By.name("name");
     private By inputPassword = By.name("Пароль");
     private By loginButton = By.xpath(".//button[text()='Войти']");
-    private By registrationButton = By.xpath(".//a[text()='Зарегистрироваться']");
-    private By restoreButton = By.xpath(".//a[text()='Восстановить пароль']");
+    private By registrationButton = By.xpath(".//a[contains(text(), 'Зарегистрироваться')]");
+    private By restoreButton = By.xpath(".//a[contains(text(), 'Восстановить пароль')]");
 
     public boolean isVisibleForm(){
         return driver.findElement(nameForm).isDisplayed();
@@ -31,5 +32,12 @@ public class FormLogin {
     }
     public void loginButtonClick(){
         driver.findElement(loginButton).click();
+    }
+    public void registrationButtonClick(){
+        driver.findElement(registrationButton).click();
+    }
+    public void restoreButtonClick(){
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(restoreButton));
+        driver.findElement(restoreButton).click();
     }
 }
