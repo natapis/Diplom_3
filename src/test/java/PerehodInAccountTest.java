@@ -13,8 +13,8 @@ public class PerehodInAccountTest {
     @Before
     public void setUp(){
         driver = new ChromeDriver();
- //       driver = new FirefoxDriver();
- //       driver = new YandexDriver();
+//        driver = new FirefoxDriver();
+//        driver = new YandexDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
@@ -22,6 +22,7 @@ public class PerehodInAccountTest {
     public void perehod(){
         Header header = new Header(driver);
         header.open();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         header.buttonAccountClick();
     }
     @After
