@@ -19,14 +19,14 @@ public class UserClient {
                 .post(CREATE_USER_API);
     }
 
- /*   public Response loginUser(UserCreds userCreds){
+    public Response loginUser(UserCreds userCreds){
         return given()
                 .header("Content-type","application/json")
                 .and()
                 .body(userCreds)
                 .when()
                 .post(LOGIN_USER_API);
-    }*/
+    }
     public Response deleteUser(String token){
         return given()
                 .auth().oauth2(token)

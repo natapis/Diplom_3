@@ -8,7 +8,7 @@ public class FormLogin {
     public FormLogin(WebDriver driver){
         this.driver = driver;
     }
-    private By nameForm = By.xpath(".//div[text()='Вход']");
+    private By nameForm = By.xpath(".//h2[text()='Вход']");
     private By inputEmail = By.name("name");
     private By inputPassword = By.name("Пароль");
     private By loginButton = By.xpath(".//button[text()='Войти']");
