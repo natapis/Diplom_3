@@ -100,9 +100,11 @@ public class LoginTest {
     }
     @After
     public void tearDown(){
-        Response loginResponse = userClient.loginUser(new UserCreds(email, password));
-        String token = loginResponse.body().as(LoginResponse.class).getAccessToken();
-        userClient.deleteUser(token);
         driver.quit();
+        Response loginResponse = userClient.loginUser(new UserCreds(email, password));
+        if (loginResponse.statusCode() == 200) {
+            String token = loginResponse.body().as(LoginResponse.class).getAccessToken();
+            userClient.deleteUser(token);
+        }
     }
 }

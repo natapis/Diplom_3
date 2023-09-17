@@ -20,15 +20,16 @@ import java.util.concurrent.TimeUnit;
 
 import static constants.Api.BASE_URL;
 
-public class RegistrationTest {
+public class RegistrationWrongPasswordTest {
     private WebDriver driver;
     private Header header;
     private Faker faker = new Faker();
     private String email;
     private String password;
     private FormLogin formLogin;
+
     @Before
-    public void setUp(){
+    public void setUp() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         RestAssured.baseURI = BASE_URL;
@@ -39,35 +40,39 @@ public class RegistrationTest {
         formLogin = new FormLogin(driver);
         formLogin.registrationButtonClick();
     }
-    @DisplayName("Регистрация пользователя")
+
+    @DisplayName("Регистрация пользователя c паролем до 6 символов")
     @Test
-    public void registration(){
+    public void registration() {
         FormRegistration formRegistration = new FormRegistration(driver);
         formRegistration.isVisibleFormRegistration();
         email = faker.internet().emailAddress();
-        password = faker.internet().password();
+        password = faker.internet().password(1, 5);
         formRegistration.setInputEmail(email);
         formRegistration.setInputName(faker.name().username());
         formRegistration.setInputPassword(password);
         formRegistration.registrationButtonClick();
 
+        formRegistration.isVisibleMessageErrorPassword();
+
+        header.buttonAccountClick();
+
         formLogin.isVisibleForm();
         formLogin.setInputEmail(email);
         formLogin.setInputPassword(password);
         formLogin.loginButtonClick();
-
-        header.buttonAccountClick();
-        ProfileUser profileUser = new ProfileUser(driver);
-        Assert.assertEquals("Регистрация не прошла", true, profileUser.isVisibleProfile());
+        Assert.assertEquals("Регистрация прошла", true, formLogin.isVisibleForm());
 
     }
+
     @After
-    public void tearDown(){
+    public void tearDown() {
         driver.quit();
         UserClient userClient = new UserClient();
         Response loginResponse = userClient.loginUser(new UserCreds(email, password));
-        if (loginResponse.statusCode()==200){
+        if (loginResponse.statusCode() == 200) {
             String token = loginResponse.body().as(LoginResponse.class).getAccessToken();
-            userClient.deleteUser(token);};
+            userClient.deleteUser(token);
+        }
     }
 }

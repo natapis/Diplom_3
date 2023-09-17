@@ -14,6 +14,7 @@ public class FormRegistration {
     private By registrationButton = By.xpath(".//button[contains(text(), 'Зарегистрироваться')]");
     private By nameForm = By.xpath(".//h2[contains(text(), 'Регистрация')]");
     private By loginButton = By.xpath(".//p[contains(text(), 'Уже зарегистрированы?')]/a[contains(text(), 'Войти')]");
+    private By messageErrorPassword = By.xpath(".//p[@class='input__error text_type_main-default']");
     public void loginButtonClick(){
         driver.findElement(loginButton).click();
     }
@@ -40,6 +41,9 @@ public class FormRegistration {
 
     public void registrationButtonClick(){
         driver.findElement(registrationButton).click();
+    }
+    public boolean isVisibleMessageErrorPassword(){
+        return driver.findElement(messageErrorPassword).isDisplayed();
     }
 
 }
