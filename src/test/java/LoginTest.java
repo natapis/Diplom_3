@@ -1,4 +1,5 @@
 import com.github.javafaker.Faker;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
@@ -38,7 +39,7 @@ public class LoginTest {
         this.isLoginExpected = isLoginExpected;
         this.buttonLogin = buttonLogin;
     }
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name="Авторизация пользователя по кнопке {5} = {4}")
     public static Object[][] loginTestData(){
         return new Object[][]{
                 {"test1988test", "testJava@mail.ru", "password1", new UserClient(), true, By.xpath(".//p[contains(text(), 'Личный Кабинет')]")},
@@ -63,6 +64,7 @@ public class LoginTest {
         userClient.createUser(user);
     }
 
+    @DisplayName("Авторизация пользователя")
     @Test
     public void login(){
         Header header = new Header(driver);
