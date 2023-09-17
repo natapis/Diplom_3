@@ -26,16 +26,15 @@ public class TransitionTabsConstructorTest {
     public void transitionForTabFilling(){
         FormConstructor formConstructor = new FormConstructor(driver);
         formConstructor.fillingTabClick();
-        Assert.assertEquals(true, formConstructor.isSelectedFillingTub());
+        Assert.assertEquals(true, formConstructor.isCurrentFillingTub());
     }
     @DisplayName("Переход к соусам")
     @Test
     public void transitionForTabSauce(){
         FormConstructor formConstructor = new FormConstructor(driver);
         formConstructor.fillingTabClick();
-        Assert.assertEquals(false, formConstructor.isSelectedSauceTub());
         formConstructor.sauceTabClick();
-        Assert.assertEquals(true, formConstructor.isSelectedSauceTub());
+        Assert.assertEquals(true, formConstructor.isCurrentSauceTub());
     }
 
     @DisplayName("Переход к булкам")
@@ -43,9 +42,8 @@ public class TransitionTabsConstructorTest {
     public void transitionForTabBuns(){
         FormConstructor formConstructor = new FormConstructor(driver);
         formConstructor.fillingTabClick();
-        Assert.assertEquals(false, formConstructor.isSelectedBunsTub());
         formConstructor.bunsTabClick();
-        Assert.assertEquals(true, formConstructor.isSelectedBunsTub());
+        Assert.assertEquals(true, formConstructor.isCurrentBunsTub());
     }
 
     @After

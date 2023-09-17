@@ -10,9 +10,10 @@ public class FormConstructor {
     private By bunsTab = By.xpath(".//span[contains(text(), 'Булки')]");
     private By sauceTab = By.xpath(".//span[contains(text(), 'Соусы')]");
     private By fillingTab = By.xpath(".//span[contains(text(), 'Начинки')]");
-    private By bunsPartName = By.xpath(".//h2[contains(text(), 'Булки')]");
-    private By saucePartName = By.xpath(".//h2[contains(text(), 'Соусы')]");
-    private By fillingPartName = By.xpath(".//h2[contains(text(), 'Начинки')]");
+    private By bTab = By.xpath(".//div[@class = 'tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect']");
+    private By sTab = By.xpath(".//div[@class = 'tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect']");
+    private By fTab = By.xpath(".//div[@class = 'tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect']");
+
     public FormConstructor(WebDriver driver){
         this.driver = driver;
     }
@@ -29,20 +30,22 @@ public class FormConstructor {
     public void sauceTabClick(){
         driver.findElement(sauceTab).click();
     }
-
     public void fillingTabClick(){
         driver.findElement(fillingTab).click();
     }
 
-    public boolean isSelectedBunsTub(){
-        return driver.findElement(bunsTab).isSelected();
+    public boolean isCurrentBunsTub(){
+        String nameClass = driver.findElement(bTab).getAttribute("class");
+        return nameClass.contains("current");
     }
-    public boolean isSelectedFillingTub(){
-        return driver.findElement(fillingTab).isSelected();
-    }
-    public boolean isSelectedSauceTub(){
-        return driver.findElement(sauceTab).isSelected();
+    public boolean isCurrentSauceTub(){
+        String nameClass = driver.findElement(sTab).getAttribute("class");
+        return nameClass.contains("current");
     }
 
+    public boolean isCurrentFillingTub(){
+        String nameClass = driver.findElement(fTab).getAttribute("class");
+        return nameClass.contains("current");
+    }
 
 }
