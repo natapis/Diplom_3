@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class Header {
     private String url="https://stellarburgers.nomoreparties.site/";
     private WebDriver driver;
-    private By buttonConstructor = By.xpath(".//li/a[contains(@class,'AppHeader_header__link__3D_hX AppHeader_header__link_active__1IkJo')]");
+    private By buttonConstructor = By.xpath(".//p[contains(text(), 'Конструктор')]");
     private By buttonHistory = By.xpath(".//li[contains(@class, 'undefined ml-2')]");
     private By buttonLogotip = By.xpath(".//div[contains(@class, 'AppHeader_header__logo__2D0X2')]");
     private By buttonAccount = By.xpath(".//p[contains(text(), 'Личный Кабинет')]");
