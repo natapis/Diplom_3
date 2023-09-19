@@ -12,8 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 public class TransitionTabsConstructorTest {
     private WebDriver driver;
+
     @Before
-    public void setUp(){
+    public void setUp() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         Header header = new Header(driver);
@@ -23,34 +24,37 @@ public class TransitionTabsConstructorTest {
 
     @DisplayName("Переход к начинкам")
     @Test
-    public void transitionForTabFilling(){
+    public void transitionForTabFilling() {
         FormConstructor formConstructor = new FormConstructor(driver);
+        Assert.assertEquals(false, formConstructor.isCurrentFillingTub());
         formConstructor.fillingTabClick();
         Assert.assertEquals(true, formConstructor.isCurrentFillingTub());
     }
+
     @DisplayName("Переход к соусам")
     @Test
-    public void transitionForTabSauce(){
+    public void transitionForTabSauce() {
         FormConstructor formConstructor = new FormConstructor(driver);
         formConstructor.fillingTabClick();
+        Assert.assertEquals(false, formConstructor.isCurrentSauceTub());
         formConstructor.sauceTabClick();
         Assert.assertEquals(true, formConstructor.isCurrentSauceTub());
     }
 
     @DisplayName("Переход к булкам")
     @Test
-    public void transitionForTabBuns(){
+    public void transitionForTabBuns() {
         FormConstructor formConstructor = new FormConstructor(driver);
         formConstructor.fillingTabClick();
+        Assert.assertEquals(false, formConstructor.isCurrentBunsTub());
         formConstructor.bunsTabClick();
         Assert.assertEquals(true, formConstructor.isCurrentBunsTub());
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         driver.quit();
     }
-
 
 
 }

@@ -10,41 +10,46 @@ public class FormConstructor {
     private By bunsTab = By.xpath(".//span[contains(text(), 'Булки')]");
     private By sauceTab = By.xpath(".//span[contains(text(), 'Соусы')]");
     private By fillingTab = By.xpath(".//span[contains(text(), 'Начинки')]");
-    private By bTab = By.xpath(".//div[@class = 'tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect']");
-    private By sTab = By.xpath(".//div[@class = 'tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect']");
-    private By fTab = By.xpath(".//div[@class = 'tab_tab__1SPyG tab_tab_type_current__2BEPc pt-4 pr-10 pb-4 pl-10 noselect']");
 
-    public FormConstructor(WebDriver driver){
+    public FormConstructor(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void loginButtonClick(){
+    public void loginButtonClick() {
         driver.findElement(loginButton).click();
     }
-    public boolean isVisibleFormConstructor(){
+
+    public boolean isVisibleFormConstructor() {
         return driver.findElement(nameForm).isDisplayed();
     }
-    public void bunsTabClick(){
+
+    public void bunsTabClick() {
         driver.findElement(bunsTab).click();
     }
-    public void sauceTabClick(){
+
+    public void sauceTabClick() {
         driver.findElement(sauceTab).click();
     }
-    public void fillingTabClick(){
+
+    public void fillingTabClick() {
         driver.findElement(fillingTab).click();
     }
 
-    public boolean isCurrentBunsTub(){
-        String nameClass = driver.findElement(bTab).getAttribute("class");
-        return nameClass.contains("current");
-    }
-    public boolean isCurrentSauceTub(){
-        String nameClass = driver.findElement(sTab).getAttribute("class");
+    public boolean isCurrentBunsTub() {
+        By currentTubBun = By.xpath(".//span[contains(text(), 'Булки')]/parent::div");
+        String nameClass = driver.findElement(currentTubBun).getAttribute("class");
         return nameClass.contains("current");
     }
 
-    public boolean isCurrentFillingTub(){
-        String nameClass = driver.findElement(fTab).getAttribute("class");
+    public boolean isCurrentSauceTub() {
+        By currentTubSauce = By.xpath(".//span[contains(text(), 'Соусы')]/parent::div");
+        String nameClass = driver.findElement(currentTubSauce).getAttribute("class");
+        return nameClass.contains("current");
+    }
+
+    public boolean isCurrentFillingTub() {
+        By currentTubFilling = By.xpath(".//span[contains(text(), 'Начинки')]/parent::div");
+        String nameClass = driver.findElement(currentTubFilling).getAttribute("class");
         return nameClass.contains("current");
     }
 
