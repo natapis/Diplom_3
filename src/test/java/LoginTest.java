@@ -1,4 +1,3 @@
-import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -30,7 +29,6 @@ public class LoginTest {
     private UserClient userClient;
     private boolean isLoginExpected;
     private By buttonLogin;
-    private Faker faker = new Faker();
     public LoginTest(String userName, String email, String password, UserClient userClient, boolean isLoginExpected, By buttonLogin){
         this.userName = userName;
         this.email = email;
@@ -55,11 +53,6 @@ public class LoginTest {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         RestAssured.baseURI = BASE_URL;
- //       userClient = new UserClient();
- //       Faker faker = new Faker();
- //       userName = faker.name().username();
- //       email = faker.internet().emailAddress();
-//        password = faker.internet().password();
         User user = new User(email, password, userName);
         userClient.createUser(user);
     }
@@ -87,7 +80,6 @@ public class LoginTest {
             FormRestore formRestore = new FormRestore(driver);
             formRestore.loginButtonClick();
         }
-     //   FormLogin formLogin = new FormLogin(driver);
         formLogin.isVisibleForm();
         formLogin.setInputEmail(email);
         formLogin.setInputPassword(password);
