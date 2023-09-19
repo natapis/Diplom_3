@@ -11,7 +11,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import practikum.burger.FormLogin;
 import practikum.burger.FormRegistration;
 import practikum.burger.Header;
-import practikum.burger.ProfileUser;
 import user.LoginResponse;
 import user.UserClient;
 import user.UserCreds;
